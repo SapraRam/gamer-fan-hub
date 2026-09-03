@@ -77,10 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "NovaStrike — Support the Stream" },
+      { title: "Alpha Clasher — Support the Stream" },
       {
         name: "description",
-        content: "Send a tip, a message and an on-stream alert to NovaStrike.",
+        content: "Send a tip, a message and an on-stream alert to Alpha Clasher.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

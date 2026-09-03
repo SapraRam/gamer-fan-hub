@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiYoutubeAvatarRouteImport } from './routes/api/youtube/avatar'
+import { Route as ApiYoutubeStreamRouteImport } from './routes/api/youtube/stream'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiYoutubeAvatarRoute = ApiYoutubeAvatarRouteImport.update({
+  id: '/api/youtube/avatar',
+  path: '/api/youtube/avatar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiYoutubeStreamRoute = ApiYoutubeStreamRouteImport.update({
+  id: '/api/youtube/stream',
+  path: '/api/youtube/stream',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/youtube/avatar': typeof ApiYoutubeAvatarRoute
+  '/api/youtube/stream': typeof ApiYoutubeStreamRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/youtube/avatar': typeof ApiYoutubeAvatarRoute
+  '/api/youtube/stream': typeof ApiYoutubeStreamRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/youtube/avatar': typeof ApiYoutubeAvatarRoute
+  '/api/youtube/stream': typeof ApiYoutubeStreamRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/youtube/avatar' | '/api/youtube/stream'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/youtube/avatar' | '/api/youtube/stream'
+  id: '__root__' | '/' | '/api/youtube/avatar' | '/api/youtube/stream'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiYoutubeAvatarRoute: typeof ApiYoutubeAvatarRoute
+  ApiYoutubeStreamRoute: typeof ApiYoutubeStreamRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/youtube/avatar': {
+      id: '/api/youtube/avatar'
+      path: '/api/youtube/avatar'
+      fullPath: '/api/youtube/avatar'
+      preLoaderRoute: typeof ApiYoutubeAvatarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/youtube/stream': {
+      id: '/api/youtube/stream'
+      path: '/api/youtube/stream'
+      fullPath: '/api/youtube/stream'
+      preLoaderRoute: typeof ApiYoutubeStreamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiYoutubeAvatarRoute: ApiYoutubeAvatarRoute,
+  ApiYoutubeStreamRoute: ApiYoutubeStreamRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

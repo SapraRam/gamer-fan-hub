@@ -87,9 +87,8 @@
   --input: rgba(255, 255, 255, 0.05);
   --ring: #a855f7;
 
-  /* Single luminous accent used across the console */
   --tier: #a855f7;
-  --tier-soft: color-mix(in oklab, #a855f7 22%, transparent);
+  --tier-soft: color-mix(in oklab, var(--tier) 22%, transparent);
 
   --surface: rgba(22, 13, 38, 0.72);
   --surface-2: rgba(30, 18, 51, 0.65);
@@ -111,8 +110,74 @@
 }
 
 @layer base {
+  @property --tier {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #a855f7;
+  }
+
+  @property --primary {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #a855f7;
+  }
+
+  @property --accent {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #d8b4fe;
+  }
+
+  @property --ring {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: #a855f7;
+  }
+
+  @property --tier-shift-x {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: -18%;
+  }
+
+  @property --tier-shift-y {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 50%;
+  }
+
+  @property --glow-left {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0.9;
+  }
+
+  @property --glow-top {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0.22;
+  }
+
+  @property --glow-right {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0.22;
+  }
+
+  @property --glow-bottom {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0.22;
+  }
+
   * {
     border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
   }
 
   body {
@@ -129,16 +194,312 @@
   }
 }
 
+@utility tier-theme {
+  --tier: #a855f7;
+  --primary: #a855f7;
+  --ring: #a855f7;
+  --accent: #d8b4fe;
+  --tier-soft: color-mix(in oklab, var(--tier) 22%, transparent);
+  --tier-panel-bg: color-mix(in oklab, var(--tier) 14%, var(--secondary));
+  --tier-surface-bg: color-mix(in oklab, var(--tier) 10%, var(--surface));
+  --tier-console-bg: color-mix(in oklab, var(--tier) 8%, var(--card));
+  --tier-input-bg: color-mix(in oklab, var(--tier) 7%, var(--secondary));
+  --tier-shift-x: -18%;
+  --tier-shift-y: 50%;
+  --glow-left: 0.9;
+  --glow-top: 0.22;
+  --glow-right: 0.22;
+  --glow-bottom: 0.22;
+  transition:
+    --tier 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    --primary 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    --accent 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    --ring 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    --tier-shift-x 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    --tier-shift-y 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    --glow-left 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    --glow-top 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    --glow-right 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    --glow-bottom 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &[data-tier="rare"] {
+    --tier: #3b82f6;
+    --primary: #3b82f6;
+    --ring: #3b82f6;
+    --accent: #93c5fd;
+    --tier-shift-x: 50%;
+    --tier-shift-y: 8%;
+    --glow-left: 0.22;
+    --glow-top: 0.9;
+    --glow-right: 0.22;
+    --glow-bottom: 0.22;
+  }
+
+  &[data-tier="epic"] {
+    --tier: #22c55e;
+    --primary: #22c55e;
+    --ring: #22c55e;
+    --accent: #86efac;
+    --tier-shift-x: 88%;
+    --tier-shift-y: 50%;
+    --glow-left: 0.22;
+    --glow-top: 0.22;
+    --glow-right: 0.9;
+    --glow-bottom: 0.22;
+  }
+
+  &[data-tier="mythic"] {
+    --tier: #f97316;
+    --primary: #f97316;
+    --ring: #f97316;
+    --accent: #fdba74;
+    --tier-shift-x: 50%;
+    --tier-shift-y: 88%;
+    --glow-left: 0.22;
+    --glow-top: 0.22;
+    --glow-right: 0.22;
+    --glow-bottom: 0.9;
+  }
+
+  &[data-tier="legendary"] {
+    --tier: #eab308;
+    --primary: #eab308;
+    --ring: #eab308;
+    --accent: #fde047;
+    --tier-shift-x: 50%;
+    --tier-shift-y: 42%;
+    --glow-left: 0.72;
+    --glow-top: 0.72;
+    --glow-right: 0.72;
+    --glow-bottom: 0.72;
+  }
+
+  & .glass {
+    background: color-mix(in oklab, var(--tier) 10%, color-mix(in oklab, var(--card) 72%, transparent));
+    border-color: color-mix(in oklab, var(--tier) 18%, var(--border));
+    transition:
+      background-color 0.55s ease,
+      border-color 0.55s ease,
+      box-shadow 0.55s ease;
+  }
+
+  & :where([class*="primary"], [class*="accent"]) {
+    transition:
+      color 0.55s ease,
+      background-color 0.55s ease,
+      border-color 0.55s ease,
+      box-shadow 0.55s ease,
+      fill 0.55s ease,
+      stroke 0.55s ease;
+  }
+}
+
+@utility tier-ambient {
+  top: var(--tier-shift-y);
+  left: var(--tier-shift-x);
+  transform: translate(-50%, -50%);
+  transition:
+    left 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    top 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.55s ease,
+    opacity 0.55s ease;
+}
+
+@keyframes tier-pulse {
+  0% {
+    filter: brightness(1.35);
+    transform: scale(1.012);
+  }
+  55% {
+    filter: brightness(1.12);
+    transform: scale(1.006);
+  }
+  100% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+}
+
+@utility tier-pulse {
+  animation: tier-pulse 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@utility tier-panel {
+  background: var(--tier-panel-bg);
+  border: 1px solid color-mix(in oklab, var(--tier) 32%, var(--border));
+  box-shadow:
+    inset 0 0 28px color-mix(in oklab, var(--tier) 6%, transparent),
+    0 0 24px -12px color-mix(in oklab, var(--tier) 22%, transparent);
+  transition:
+    background-color 0.55s ease,
+    border-color 0.55s ease,
+    box-shadow 0.55s ease;
+}
+
+@utility tier-surface {
+  background: var(--tier-surface-bg);
+  border: 1px solid color-mix(in oklab, var(--tier) 18%, var(--border));
+  transition:
+    background-color 0.55s ease,
+    border-color 0.55s ease,
+    box-shadow 0.55s ease;
+}
+
+@utility tier-console {
+  background: var(--tier-console-bg);
+  transition: background-color 0.55s ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.9;
+    transition: background 0.65s ease, opacity 0.55s ease;
+  }
+
+  .tier-theme[data-tier="standard"] &::before {
+    background: linear-gradient(
+      to right,
+      color-mix(in oklab, var(--tier) 22%, transparent) 0%,
+      transparent 58%
+    );
+  }
+
+  .tier-theme[data-tier="rare"] &::before {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--tier) 22%, transparent) 0%,
+      transparent 58%
+    );
+  }
+
+  .tier-theme[data-tier="epic"] &::before {
+    background: linear-gradient(
+      to left,
+      color-mix(in oklab, var(--tier) 22%, transparent) 0%,
+      transparent 58%
+    );
+  }
+
+  .tier-theme[data-tier="mythic"] &::before {
+    background: linear-gradient(
+      to top,
+      color-mix(in oklab, var(--tier) 22%, transparent) 0%,
+      transparent 58%
+    );
+  }
+
+  .tier-theme[data-tier="legendary"] &::before {
+    background: radial-gradient(
+      ellipse 90% 80% at 50% 50%,
+      color-mix(in oklab, var(--tier) 18%, transparent) 0%,
+      transparent 72%
+    );
+  }
+}
+
+@utility tier-input-bg {
+  background: var(--tier-input-bg);
+  border: 1px solid color-mix(in oklab, var(--tier) 12%, var(--border));
+  transition:
+    background-color 0.55s ease,
+    border-color 0.55s ease;
+}
+
 @utility glass {
   background: color-mix(in oklab, var(--card) 72%, transparent);
   backdrop-filter: blur(24px) saturate(150%);
   border: 1px solid var(--color-border);
 }
 
+@utility tier-select {
+  border: 1px solid color-mix(in oklab, var(--tier) 80%, white);
+  background: color-mix(in oklab, var(--tier) 16%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--tier) 55%, transparent),
+    0 0 22px 4px color-mix(in oklab, var(--tier) 32%, transparent),
+    inset 0 0 18px color-mix(in oklab, var(--tier) 8%, transparent);
+  transition:
+    border-color 0.55s ease,
+    background-color 0.55s ease,
+    box-shadow 0.55s ease;
+}
+
+@utility tier-cta-glow {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--tier) 40%, transparent),
+    0 18px 48px -10px color-mix(in oklab, var(--tier) 70%, transparent),
+    0 8px 24px -8px color-mix(in oklab, var(--tier) 50%, transparent);
+  transition: box-shadow 0.55s ease;
+}
+
 @utility console-glow {
   box-shadow:
-    0 0 0 1px color-mix(in oklab, var(--tier) 30%, transparent),
-    0 28px 80px -32px color-mix(in oklab, var(--tier) 55%, transparent);
+    0 0 0 1px color-mix(in oklab, var(--tier) 28%, transparent),
+    0 0 64px -12px color-mix(in oklab, var(--tier) 40%, transparent);
+  transition: box-shadow 0.65s ease, filter 0.55s ease;
+}
+
+@utility tier-edge-glow {
+  position: absolute;
+  pointer-events: none;
+  filter: blur(52px);
+  transition:
+    opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.55s ease;
+}
+
+@utility tier-edge-glow-left {
+  left: -28%;
+  top: 8%;
+  width: 52%;
+  height: 84%;
+  opacity: calc(var(--glow-left) * 0.62);
+  background: radial-gradient(
+    ellipse at left center,
+    color-mix(in oklab, var(--tier) 75%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+@utility tier-edge-glow-top {
+  top: -32%;
+  left: 8%;
+  width: 84%;
+  height: 52%;
+  opacity: calc(var(--glow-top) * 0.62);
+  background: radial-gradient(
+    ellipse at center top,
+    color-mix(in oklab, var(--tier) 75%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+@utility tier-edge-glow-right {
+  right: -28%;
+  top: 8%;
+  width: 52%;
+  height: 84%;
+  opacity: calc(var(--glow-right) * 0.62);
+  background: radial-gradient(
+    ellipse at right center,
+    color-mix(in oklab, var(--tier) 75%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+@utility tier-edge-glow-bottom {
+  bottom: -32%;
+  left: 8%;
+  width: 84%;
+  height: 52%;
+  opacity: calc(var(--glow-bottom) * 0.62);
+  background: radial-gradient(
+    ellipse at center bottom,
+    color-mix(in oklab, var(--tier) 75%, transparent) 0%,
+    transparent 70%
+  );
 }
 
 @utility grid-lines {
@@ -158,6 +519,7 @@
     height: 18px;
     border: 2px solid var(--tier);
     opacity: 0.7;
+    transition: border-color 0.55s ease;
   }
   &::before {
     top: -1px;
