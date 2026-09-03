@@ -12,8 +12,10 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --font-display: "Chakra Petch", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Sora", ui-sans-serif, system-ui, sans-serif;
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -33,10 +35,12 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
   --color-tier: var(--tier);
   --color-tier-soft: var(--tier-soft);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -55,46 +59,55 @@
 :root {
   --radius: 1rem;
 
-  /* Dark gaming base */
-  --background: oklch(0.14 0.025 285);
-  --foreground: oklch(0.97 0.005 285);
-  --surface: oklch(0.19 0.03 285 / 70%);
-  --surface-2: oklch(0.24 0.035 285 / 65%);
-  --card: oklch(0.19 0.03 285);
-  --card-foreground: oklch(0.97 0.005 285);
-  --popover: oklch(0.19 0.03 285);
-  --popover-foreground: oklch(0.97 0.005 285);
-  --primary: oklch(0.68 0.2 300);
-  --primary-foreground: oklch(0.14 0.025 285);
-  --secondary: oklch(0.26 0.035 285);
-  --secondary-foreground: oklch(0.97 0.005 285);
-  --muted: oklch(0.26 0.035 285);
-  --muted-foreground: oklch(0.7 0.02 285);
-  --accent: oklch(0.72 0.16 195);
-  --accent-foreground: oklch(0.14 0.025 285);
-  --destructive: oklch(0.62 0.23 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 14%);
-  --ring: oklch(0.68 0.2 300);
+  /* Void Royal — dark purple gaming base */
+  --background: #0b0614;
+  --foreground: #f3e8ff;
 
-  /* Tier accent — recolored per amount tier at runtime */
-  --tier: oklch(0.68 0.2 300);
-  --tier-soft: oklch(0.68 0.2 300 / 22%);
+  --card: #160d26;
+  --card-foreground: #f3e8ff;
+  --popover: #160d26;
+  --popover-foreground: #f3e8ff;
 
-  --chart-1: oklch(0.68 0.2 300);
-  --chart-2: oklch(0.72 0.16 195);
-  --chart-3: oklch(0.75 0.18 60);
-  --chart-4: oklch(0.7 0.2 20);
-  --chart-5: oklch(0.72 0.19 145);
-  --sidebar: oklch(0.17 0.03 285);
-  --sidebar-foreground: oklch(0.97 0.005 285);
-  --sidebar-primary: oklch(0.68 0.2 300);
-  --sidebar-primary-foreground: oklch(0.14 0.025 285);
-  --sidebar-accent: oklch(0.26 0.035 285);
-  --sidebar-accent-foreground: oklch(0.97 0.005 285);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.68 0.2 300);
+  --primary: #a855f7;
+  --primary-foreground: #0b0614;
+
+  --secondary: #1e1233;
+  --secondary-foreground: #f3e8ff;
+
+  --muted: rgba(255, 255, 255, 0.05);
+  --muted-foreground: rgba(243, 232, 255, 0.55);
+
+  --accent: #d8b4fe;
+  --accent-foreground: #0b0614;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.05);
+  --ring: #a855f7;
+
+  /* Single luminous accent used across the console */
+  --tier: #a855f7;
+  --tier-soft: color-mix(in oklab, #a855f7 22%, transparent);
+
+  --surface: rgba(22, 13, 38, 0.72);
+  --surface-2: rgba(30, 18, 51, 0.65);
+
+  --chart-1: #a855f7;
+  --chart-2: #d8b4fe;
+  --chart-3: #f3e8ff;
+  --chart-4: #7c3aed;
+  --chart-5: #c084fc;
+
+  --sidebar: #0b0614;
+  --sidebar-foreground: #f3e8ff;
+  --sidebar-primary: #a855f7;
+  --sidebar-primary-foreground: #0b0614;
+  --sidebar-accent: #1e1233;
+  --sidebar-accent-foreground: #f3e8ff;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #a855f7;
 }
 
 @layer base {
@@ -112,49 +125,27 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
 }
 
-/* --- Tier themes: set on a wrapper to recolor the whole tip console --- */
-@utility tier-violet {
-  --tier: oklch(0.68 0.2 300);
-  --tier-soft: oklch(0.68 0.2 300 / 22%);
-}
-@utility tier-cyan {
-  --tier: oklch(0.75 0.14 200);
-  --tier-soft: oklch(0.75 0.14 200 / 22%);
-}
-@utility tier-amber {
-  --tier: oklch(0.78 0.16 70);
-  --tier-soft: oklch(0.78 0.16 70 / 22%);
-}
-@utility tier-rose {
-  --tier: oklch(0.68 0.21 15);
-  --tier-soft: oklch(0.68 0.21 15 / 22%);
-}
-@utility tier-lime {
-  --tier: oklch(0.8 0.19 130);
-  --tier-soft: oklch(0.8 0.19 130 / 22%);
-}
-
 @utility glass {
-  background: color-mix(in oklab, var(--card) 62%, transparent);
-  backdrop-filter: blur(22px) saturate(140%);
+  background: color-mix(in oklab, var(--card) 72%, transparent);
+  backdrop-filter: blur(24px) saturate(150%);
   border: 1px solid var(--color-border);
 }
 
-@utility tier-glow {
+@utility console-glow {
   box-shadow:
-    0 0 0 1px color-mix(in oklab, var(--tier) 35%, transparent),
-    0 24px 70px -28px color-mix(in oklab, var(--tier) 60%, transparent);
+    0 0 0 1px color-mix(in oklab, var(--tier) 30%, transparent),
+    0 28px 80px -32px color-mix(in oklab, var(--tier) 55%, transparent);
 }
 
 @utility grid-lines {
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--tier) 12%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--tier) 12%, transparent) 1px, transparent 1px);
-  background-size: 46px 46px;
+    linear-gradient(to right, color-mix(in oklab, var(--tier) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--tier) 10%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
 }
 
 @utility hud-corner {
@@ -166,7 +157,7 @@
     width: 18px;
     height: 18px;
     border: 2px solid var(--tier);
-    opacity: 0.75;
+    opacity: 0.7;
   }
   &::before {
     top: -1px;
@@ -182,4 +173,8 @@
     border-top: none;
     border-bottom-right-radius: 10px;
   }
+}
+
+@utility text-balance {
+  text-wrap: balance;
 }
