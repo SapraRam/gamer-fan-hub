@@ -13,8 +13,8 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
 
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-family-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-family-sans), ui-sans-serif, system-ui, sans-serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -59,8 +59,8 @@
 :root {
   --radius: 1rem;
 
-  /* Void Royal — dark purple gaming base */
-  --background: #0b0614;
+  /* Pure black starfield */
+  --background: #000000;
   --foreground: #f3e8ff;
 
   --card: #160d26;
@@ -146,28 +146,10 @@
     initial-value: 50%;
   }
 
-  @property --glow-left {
+  @property --glow-edge {
     syntax: "<number>";
     inherits: true;
-    initial-value: 0.9;
-  }
-
-  @property --glow-top {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 0.22;
-  }
-
-  @property --glow-right {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 0.22;
-  }
-
-  @property --glow-bottom {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 0.22;
+    initial-value: 0.85;
   }
 
   * {
@@ -204,35 +186,22 @@
   --tier-surface-bg: color-mix(in oklab, var(--tier) 10%, var(--surface));
   --tier-console-bg: color-mix(in oklab, var(--tier) 8%, var(--card));
   --tier-input-bg: color-mix(in oklab, var(--tier) 7%, var(--secondary));
-  --tier-shift-x: -18%;
+  --tier-shift-x: 50%;
   --tier-shift-y: 50%;
-  --glow-left: 0.9;
-  --glow-top: 0.22;
-  --glow-right: 0.22;
-  --glow-bottom: 0.22;
+  --glow-edge: 0.85;
   transition:
     --tier 0.55s cubic-bezier(0.4, 0, 0.2, 1),
     --primary 0.55s cubic-bezier(0.4, 0, 0.2, 1),
     --accent 0.55s cubic-bezier(0.4, 0, 0.2, 1),
     --ring 0.55s cubic-bezier(0.4, 0, 0.2, 1),
     --tier-shift-x 0.65s cubic-bezier(0.4, 0, 0.2, 1),
-    --tier-shift-y 0.65s cubic-bezier(0.4, 0, 0.2, 1),
-    --glow-left 0.65s cubic-bezier(0.4, 0, 0.2, 1),
-    --glow-top 0.65s cubic-bezier(0.4, 0, 0.2, 1),
-    --glow-right 0.65s cubic-bezier(0.4, 0, 0.2, 1),
-    --glow-bottom 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    --tier-shift-y 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 
   &[data-tier="rare"] {
     --tier: #3b82f6;
     --primary: #3b82f6;
     --ring: #3b82f6;
     --accent: #93c5fd;
-    --tier-shift-x: 50%;
-    --tier-shift-y: 8%;
-    --glow-left: 0.22;
-    --glow-top: 0.9;
-    --glow-right: 0.22;
-    --glow-bottom: 0.22;
   }
 
   &[data-tier="epic"] {
@@ -240,12 +209,6 @@
     --primary: #22c55e;
     --ring: #22c55e;
     --accent: #86efac;
-    --tier-shift-x: 88%;
-    --tier-shift-y: 50%;
-    --glow-left: 0.22;
-    --glow-top: 0.22;
-    --glow-right: 0.9;
-    --glow-bottom: 0.22;
   }
 
   &[data-tier="mythic"] {
@@ -253,12 +216,6 @@
     --primary: #f97316;
     --ring: #f97316;
     --accent: #fdba74;
-    --tier-shift-x: 50%;
-    --tier-shift-y: 88%;
-    --glow-left: 0.22;
-    --glow-top: 0.22;
-    --glow-right: 0.22;
-    --glow-bottom: 0.9;
   }
 
   &[data-tier="legendary"] {
@@ -266,16 +223,15 @@
     --primary: #eab308;
     --ring: #eab308;
     --accent: #fde047;
-    --tier-shift-x: 50%;
-    --tier-shift-y: 42%;
-    --glow-left: 0.72;
-    --glow-top: 0.72;
-    --glow-right: 0.72;
-    --glow-bottom: 0.72;
+    --glow-edge: 0.95;
   }
 
   & .glass {
-    background: color-mix(in oklab, var(--tier) 10%, color-mix(in oklab, var(--card) 72%, transparent));
+    background: color-mix(
+      in oklab,
+      var(--tier) 10%,
+      color-mix(in oklab, var(--card) 72%, transparent)
+    );
     border-color: color-mix(in oklab, var(--tier) 18%, var(--border));
     transition:
       background-color 0.55s ease,
@@ -299,10 +255,41 @@
   left: var(--tier-shift-x);
   transform: translate(-50%, -50%);
   transition:
-    left 0.65s cubic-bezier(0.4, 0, 0.2, 1),
-    top 0.65s cubic-bezier(0.4, 0, 0.2, 1),
     background-color 0.55s ease,
     opacity 0.55s ease;
+}
+
+@keyframes tier-edge-surge {
+  0% {
+    opacity: calc(var(--glow-edge) * 0.72);
+    filter: blur(52px) brightness(1);
+  }
+  35% {
+    opacity: calc(var(--glow-edge) * 1.08);
+    filter: blur(68px) brightness(1.5);
+  }
+  100% {
+    opacity: calc(var(--glow-edge) * 0.72);
+    filter: blur(52px) brightness(1);
+  }
+}
+
+@keyframes tier-ring-surge {
+  0% {
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--tier) 32%, transparent),
+      0 0 64px -10px color-mix(in oklab, var(--tier) 48%, transparent);
+  }
+  40% {
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--tier) 55%, transparent),
+      0 0 100px -4px color-mix(in oklab, var(--tier) 68%, transparent);
+  }
+  100% {
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--tier) 32%, transparent),
+      0 0 64px -10px color-mix(in oklab, var(--tier) 48%, transparent);
+  }
 }
 
 @keyframes tier-pulse {
@@ -321,7 +308,13 @@
 }
 
 @utility tier-pulse {
-  animation: tier-pulse 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  animation:
+    tier-pulse 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+    tier-ring-surge 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+
+  & .tier-edge-glow {
+    animation: tier-edge-surge 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }
 
 @utility tier-panel {
@@ -354,48 +347,13 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.9;
-    transition: background 0.65s ease, opacity 0.55s ease;
-  }
-
-  .tier-theme[data-tier="standard"] &::before {
-    background: linear-gradient(
-      to right,
-      color-mix(in oklab, var(--tier) 22%, transparent) 0%,
-      transparent 58%
-    );
-  }
-
-  .tier-theme[data-tier="rare"] &::before {
-    background: linear-gradient(
-      to bottom,
-      color-mix(in oklab, var(--tier) 22%, transparent) 0%,
-      transparent 58%
-    );
-  }
-
-  .tier-theme[data-tier="epic"] &::before {
-    background: linear-gradient(
-      to left,
-      color-mix(in oklab, var(--tier) 22%, transparent) 0%,
-      transparent 58%
-    );
-  }
-
-  .tier-theme[data-tier="mythic"] &::before {
-    background: linear-gradient(
-      to top,
-      color-mix(in oklab, var(--tier) 22%, transparent) 0%,
-      transparent 58%
-    );
-  }
-
-  .tier-theme[data-tier="legendary"] &::before {
+    opacity: 0.85;
     background: radial-gradient(
-      ellipse 90% 80% at 50% 50%,
-      color-mix(in oklab, var(--tier) 18%, transparent) 0%,
-      transparent 72%
+      ellipse 110% 90% at 50% 100%,
+      color-mix(in oklab, var(--tier) 16%, transparent) 0%,
+      transparent 68%
     );
+    transition: background 0.65s ease;
   }
 }
 
@@ -436,17 +394,21 @@
 
 @utility console-glow {
   box-shadow:
-    0 0 0 1px color-mix(in oklab, var(--tier) 28%, transparent),
-    0 0 64px -12px color-mix(in oklab, var(--tier) 40%, transparent);
-  transition: box-shadow 0.65s ease, filter 0.55s ease;
+    0 0 0 1px color-mix(in oklab, var(--tier) 32%, transparent),
+    0 0 64px -10px color-mix(in oklab, var(--tier) 48%, transparent);
+  transition:
+    box-shadow 0.55s ease,
+    filter 0.55s ease;
 }
 
 @utility tier-edge-glow {
   position: absolute;
   pointer-events: none;
+  opacity: calc(var(--glow-edge) * 0.72);
   filter: blur(52px);
   transition:
-    opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.55s ease,
+    filter 0.55s ease,
     background-color 0.55s ease;
 }
 
@@ -455,10 +417,9 @@
   top: 8%;
   width: 52%;
   height: 84%;
-  opacity: calc(var(--glow-left) * 0.62);
   background: radial-gradient(
     ellipse at left center,
-    color-mix(in oklab, var(--tier) 75%, transparent) 0%,
+    color-mix(in oklab, var(--tier) 78%, transparent) 0%,
     transparent 70%
   );
 }
@@ -468,10 +429,9 @@
   left: 8%;
   width: 84%;
   height: 52%;
-  opacity: calc(var(--glow-top) * 0.62);
   background: radial-gradient(
     ellipse at center top,
-    color-mix(in oklab, var(--tier) 75%, transparent) 0%,
+    color-mix(in oklab, var(--tier) 78%, transparent) 0%,
     transparent 70%
   );
 }
@@ -481,10 +441,9 @@
   top: 8%;
   width: 52%;
   height: 84%;
-  opacity: calc(var(--glow-right) * 0.62);
   background: radial-gradient(
     ellipse at right center,
-    color-mix(in oklab, var(--tier) 75%, transparent) 0%,
+    color-mix(in oklab, var(--tier) 78%, transparent) 0%,
     transparent 70%
   );
 }
@@ -494,18 +453,79 @@
   left: 8%;
   width: 84%;
   height: 52%;
-  opacity: calc(var(--glow-bottom) * 0.62);
   background: radial-gradient(
     ellipse at center bottom,
-    color-mix(in oklab, var(--tier) 75%, transparent) 0%,
+    color-mix(in oklab, var(--tier) 78%, transparent) 0%,
     transparent 70%
   );
 }
 
+@keyframes starfield-twinkle {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes starfield-drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-48px, -32px, 0);
+  }
+}
+
+@utility starry-sky {
+  isolation: isolate;
+  background-color: #000000;
+  background-image: url("/images/starfield.svg");
+  background-size: 512px 512px;
+  background-repeat: repeat;
+  background-position: center center;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -32px;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url("/images/starfield.svg");
+    background-size: 384px 384px;
+    background-repeat: repeat;
+    opacity: 0.5;
+    animation:
+      starfield-drift 120s linear infinite,
+      starfield-twinkle 6s ease-in-out infinite;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 75% 55% at 50% 48%, transparent 30%, rgba(0, 0, 0, 0.72) 100%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(255, 255, 255, 0.03), transparent 70%);
+  }
+}
+
 @utility grid-lines {
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--tier) 10%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--tier) 10%, transparent) 1px, transparent 1px);
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--tier) 10%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--tier) 10%, transparent) 1px,
+      transparent 1px
+    );
   background-size: 44px 44px;
 }
 

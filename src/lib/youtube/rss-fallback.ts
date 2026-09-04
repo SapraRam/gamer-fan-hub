@@ -16,7 +16,7 @@ function decodeXml(text: string): string {
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, "\"")
+    .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'");
 }
 
@@ -25,6 +25,7 @@ function parseRssEntries(xml: string): ParsedEntry[] {
 
   for (const block of xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)) {
     const entry = block[1];
+    if (!entry) continue;
     const videoId = entry.match(/<yt:videoId>([^<]+)<\/yt:videoId>/)?.[1];
     const title = entry.match(/<title>([^<]+)<\/title>/)?.[1];
     const thumbnailUrl =
@@ -63,10 +64,8 @@ function toVideoInfo(entry: ParsedEntry, isLive = false): YouTubeVideoInfo {
 }
 
 function parseSubscriberLabel(label: string): string {
-  const match = label.match(
-    /([\d,.]+)\s*(thousand|million|billion|k|m|b)?\s*subscriber/i,
-  );
-  if (!match) return label.replace(/\s*subscribers?$/i, "").trim();
+  const match = label.match(/([\d,.]+)\s*(thousand|million|billion|k|m|b)?\s*subscriber/i);
+  if (!match?.[1]) return label.replace(/\s*subscribers?$/i, "").trim();
 
   const num = Number.parseFloat(match[1].replace(/,/g, ""));
   const unit = match[2]?.toLowerCase();
@@ -78,10 +77,8 @@ function parseSubscriberLabel(label: string): string {
 }
 
 function parseSubscriberCount(label: string): number {
-  const match = label.match(
-    /([\d,.]+)\s*(thousand|million|billion|k|m|b)?\s*subscriber/i,
-  );
-  if (!match) return 0;
+  const match = label.match(/([\d,.]+)\s*(thousand|million|billion|k|m|b)?\s*subscriber/i);
+  if (!match?.[1]) return 0;
 
   const num = Number.parseFloat(match[1].replace(/,/g, ""));
   const unit = match[2]?.toLowerCase();
@@ -93,7 +90,10 @@ function parseSubscriberCount(label: string): number {
 }
 
 function decodeHtmlUrl(url: string): string {
-  return url.replace(/&amp;/g, "&").replace(/&quot;/g, "\"").trim();
+  return url
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .trim();
 }
 
 function scrapeChannelMeta(html: string) {
@@ -110,13 +110,9 @@ function scrapeChannelMeta(html: string) {
       /"subscriberCountText":\{"accessibility":\{"accessibilityData":\{"label":"([^"]+)"/,
     )?.[1] ?? "";
 
-  const subscriberLabel = subscriberLabelRaw
-    ? parseSubscriberLabel(subscriberLabelRaw)
-    : "—";
+  const subscriberLabel = subscriberLabelRaw ? parseSubscriberLabel(subscriberLabelRaw) : "—";
 
-  const subscriberCount = subscriberLabelRaw
-    ? parseSubscriberCount(subscriberLabelRaw)
-    : 0;
+  const subscriberCount = subscriberLabelRaw ? parseSubscriberCount(subscriberLabelRaw) : 0;
 
   return { channelTitle, channelAvatarUrl, subscriberLabel, subscriberCount };
 }

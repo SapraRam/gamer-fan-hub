@@ -156,9 +156,7 @@ async function getChannelMeta(): Promise<ChannelMeta> {
     shortsPlaylistId: channel.contentDetails.relatedPlaylists.shortUploads ?? "",
     channelTitle: channel.snippet.title,
     channelAvatarUrl:
-      channel.snippet.thumbnails?.high?.url ??
-      channel.snippet.thumbnails?.default?.url ??
-      "",
+      channel.snippet.thumbnails?.high?.url ?? channel.snippet.thumbnails?.default?.url ?? "",
     subscriberCount: Number(channel.statistics?.subscriberCount ?? 0),
   };
 
@@ -243,7 +241,9 @@ async function fetchLiveStreamSearch(): Promise<YouTubeVideoInfo | null> {
  * - videos.list (batched): 1
  * - search.list (live, cached 2–15 min): 100 when cache expires
  */
-export async function fetchYouTubeChannel(options?: { referer?: string }): Promise<YouTubeChannelResult> {
+export async function fetchYouTubeChannel(options?: {
+  referer?: string;
+}): Promise<YouTubeChannelResult> {
   const cached = readCache<YouTubeChannelData>("youtube:channel-bundle");
   if (cached) {
     return {
@@ -272,7 +272,6 @@ export async function fetchYouTubeChannel(options?: { referer?: string }): Promi
 }
 
 async function fetchYouTubeChannelViaApi(): Promise<YouTubeChannelResult> {
-
   const meta = await getChannelMeta();
 
   const [uploadVideoId, shortVideoId, liveFromSearch] = await Promise.all([
@@ -303,9 +302,7 @@ async function fetchYouTubeChannelViaApi(): Promise<YouTubeChannelResult> {
     latestShort = toVideoInfo(v.id, v.snippet.title, v.snippet.thumbnails);
   }
 
-  const liveStream =
-    liveFromSearch ??
-    (latestVideo?.isLive ? latestVideo : null);
+  const liveStream = liveFromSearch ?? (latestVideo?.isLive ? latestVideo : null);
 
   const channel = await withProxiedAvatar({
     channelTitle: meta.channelTitle,

@@ -11,7 +11,10 @@ interface AvatarBytesCache {
 }
 
 function decodeHtmlUrl(url: string): string {
-  return url.replace(/&amp;/g, "&").replace(/&quot;/g, "\"").trim();
+  return url
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .trim();
 }
 
 function bytesToBase64(bytes: Uint8Array): string {
